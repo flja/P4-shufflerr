@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30907.101
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Generate-ParseTable", "Generate-ParsingTable\Generate-ParseTable.csproj", "{E48CD14F-18D0-44D1-B522-04861CF9C23B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E48CD14F-18D0-44D1-B522-04861CF9C23B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E48CD14F-18D0-44D1-B522-04861CF9C23B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E48CD14F-18D0-44D1-B522-04861CF9C23B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E48CD14F-18D0-44D1-B522-04861CF9C23B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {12292F0E-31F6-4852-B807-767BA01DE828}
+	EndGlobalSection
+EndGlobal
