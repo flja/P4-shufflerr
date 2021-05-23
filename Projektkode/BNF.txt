@@ -1,0 +1,140 @@
+Prog⟶DeckDcls CardsDef PlayerDef TableDef Setup Round Turn Endcondition Functions $ 
+DeckDcls⟶DeckDcl assign Deck semicolon DeckDcls
+DeckDcls⟶
+CardsDef⟶define cards lBrace Assignments rBrace 
+PlayerDef⟶define player lParen nonZeroNum rParen CompoundStmt 
+TableDef⟶define table CompoundStmt 
+Setup⟶setup CompoundStmt 
+Round⟶round CompoundStmt 
+Turn⟶turn CompoundStmt 
+Endcondition⟶endcondition lParen LogicalExpr rParen CompoundStmt 
+Functions⟶functions lBrace FunctionsDefs rBrace 
+Dcls⟶Dcl semicolon Dcls
+Dcls⟶
+Dcl⟶DeckDcl
+Dcl⟶NumberDcl OptNumberAssign
+Dcl⟶CardDcl
+Dcl⟶HandDcl
+Dcl⟶EnumDcl
+Dcl⟶StringDcl OptStringAssign
+Dcl⟶FlagDcl OptFlagAssign 
+DeckDcl⟶deck id 
+NumberDcl⟶number id 
+OptNumberAssign⟶assign Number
+OptNumberAssign⟶
+CardDcl⟶card id 
+HandDcl⟶hand id 
+EnumDcl⟶enum id lBrace Enum rBrace 
+StringDcl⟶string id 
+OptStringAssign⟶assign String
+OptStringAssign⟶
+FlagDcl⟶flag id 
+OptFlagAssign⟶assign Flag
+OptFlagAssign⟶
+Deck⟶standard Add
+Deck⟶Cards 
+Add⟶plus Cards
+Add⟶ 
+Cards⟶Card Add
+Cards⟶hearts Add
+Cards⟶spades Add
+Cards⟶diamonds Add
+Cards⟶clubs Add 
+Card⟶cardValue 
+Card⟶joker
+Number⟶zero
+Number⟶Sign nonZeroNum
+Sign⟶neg
+Sign⟶
+String⟶stringValue 
+Enum⟶id Enum2 
+Enum2⟶assign Val Enum3
+Enum2⟶comma Enum
+Enum3⟶comma Enum
+Enum3⟶
+Flag⟶true
+Flag⟶false
+Parameters⟶Parameters1
+Parameters⟶
+Parameters1⟶Val Parameters2
+Parameters2⟶comma Parameters1
+Parameters2⟶
+Val⟶String 
+Val⟶Number 
+Val⟶Flag
+Val⟶Card
+Val⟶ObjectSpecifier
+Stmts⟶Stmt Stmts
+Stmts⟶
+Stmt⟶Assignment
+Stmt⟶CompoundStmt
+Stmt⟶SelectionStmt
+Stmt⟶LoopStmt
+Stmt⟶Expr semicolon
+Stmt⟶LabeledStmt
+Stmt⟶break semicolon
+Stmt⟶return Val semicolon 
+Assignments⟶Assignment Assignments
+Assignments⟶
+Assignment⟶assignSpecifier ObjectSpecifier assign Expr semicolon 
+ObjectSpecifier⟶id FollowObject 
+FollowObject⟶dot FollowObject1 FollowObject
+FollowObject⟶
+FollowObject1⟶String 
+FollowObject1⟶Number
+FollowObject1⟶Flag
+FollowObject1⟶Card
+FollowObject1⟶id
+CompoundStmt⟶lBrace Dcls Stmts rBrace 
+SelectionStmt⟶if lParen LogicalExpr rParen Stmt OptElse
+SelectionStmt⟶actions CompoundStmt endactions semicolon
+SelectionStmt⟶switch lParen Expr rParen CompoundStmt endswitch semicolon 
+LabeledStmt⟶case colon Expr colon Stmts endcase semicolon
+LabeledStmt⟶default colon Stmts enddefault semicolon
+LabeledStmt⟶action String if lParen LogicalExpr rParen CompoundStmt endaction semicolon 
+OptElse⟶else Stmt endif semicolon
+OptElse⟶endif semicolon
+LoopStmt⟶while lParen LogicalExpr rParen Stmt endwhile semicolon
+LoopStmt⟶for lParen Expr semicolon Expr semicolon Expr rParen Stmt 
+Exprs⟶Expr Exprs
+Exprs⟶
+Expr⟶AddExpr
+Expr⟶LogicalExpr
+Expr⟶FunctionCall 
+AddExpr⟶Term AddExpr1 
+AddExpr1⟶plus Term AddExpr1
+AddExpr1⟶hyphen Term AddExpr1
+AddExpr1⟶
+Term⟶Factor Term1 
+Term1⟶star Factor Term1
+Term1⟶slash Factor Term1
+Term1⟶mod Factor Term1
+Term1⟶
+Factor⟶lParen AddExpr rParen
+Factor⟶Val 
+LogicalExpr⟶questionmark LogicalTerm LogicalExpr1 
+LogicalExpr1⟶or LogicalTerm LogicalExpr1
+LogicalExpr1⟶and LogicalTerm LogicalExpr1
+LogicalExpr1⟶xor LogicalTerm LogicalExpr1
+LogicalExpr1⟶
+LogicalTerm⟶AddExpr LogicalTerm1 
+LogicalTerm1⟶LogicalOperator LogicalTerm
+LogicalTerm1⟶
+LogicalOperator⟶lessthan
+LogicalOperator⟶greaterthan
+LogicalOperator⟶equal
+LogicalOperator⟶notequal
+LogicalOperator⟶lessthanorequal
+LogicalOperator⟶greaterthanorequal 
+FunctionCall⟶func FunctionCall1 
+FunctionCall1⟶ObjectSpecifier lParen Parameters rParen 
+FunctionsDefs⟶FunctionsDef FunctionsDefs
+FunctionsDefs⟶
+FunctionsDef⟶Type id lParen Dcls rParen CompoundStmt 
+Type⟶deck
+Type⟶card
+Type⟶number
+Type⟶string
+Type⟶flag
+Type⟶enum
+Type⟶void 

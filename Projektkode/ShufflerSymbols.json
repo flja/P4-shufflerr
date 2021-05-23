@@ -1,0 +1,188 @@
+{
+    "DefaultSymbols":
+    {
+        "Cards" : 
+        {
+            "cards":
+            [
+                "two",
+                "three",
+                "four",
+                "five",
+                "six",
+                "seven",
+                "eight",
+                "nine",
+                "ten",
+                "jack",
+                "queen",
+                "king",
+                "ace",
+                "joker"
+            ],
+            "properties":
+            [
+                {
+                    "name" : "value",
+                    "type" : "number"
+                },
+                {
+                    "name" : "suit",
+                    "type" : "string"
+                },
+                {
+                    "name" : "facevalue",
+                    "type" : "string"
+                }
+            ]
+        },
+        "Keywords":
+        {
+            "keywords":
+            [
+            ]
+        }
+    },
+
+    "TypeProperties": 
+    {
+
+        "hand" :
+        {
+            "properties":
+            [
+                {
+                    "name" : "drawfrom",
+                    "type" : "deck func (deck; number;)"
+                },
+                {
+                    "name" : "size",
+                    "type" : "number"
+                },
+                {
+                    "name" : "numberValue",
+                    "type" : "card"
+                },
+                {
+                    "name" : "totalValue",
+                    "type" : "number"
+                },
+                {
+                    "name" : "numberValue.value",
+                    "type" : "number"
+                }
+            ]
+        },
+
+        "deck" :
+        {
+            "properties":
+            [
+                {
+                    "name" : "numberValue",
+                    "type" : "card"
+                },
+                {
+                    "name" : "numberValue.value",
+                    "type" : "number"
+                },
+                {
+                    "name" : "shuffle",
+                    "type" : "void func ()"
+                },
+                {
+                    "name" : "drawfrom",
+                    "type" : "deck func (deck; number;)"
+                },
+                {
+                    "name" : "totalValue",
+                    "type" : "number"
+                },
+                {
+                    "name" : "size",
+                    "type" : "number"
+                }
+            ]
+        },
+        "player":
+        {
+            "properties":
+            [
+                {
+                    "name" : "takeTurn",
+                    "type" : "void func ()"
+                },
+                {
+                    "name" : "Number",
+                    "type" : "number"
+                }
+            ]
+        }
+
+    },
+
+    "DefaultFunctions":
+    {
+        "functions":
+                [
+                    {
+                        "name" : "players.takeTurn",
+                        "type" : "void func ()"
+                    },
+                    {
+                        "name" : "endcondition.check",
+                        "type" : "void func ()"
+                    },
+                    {
+                        "name" : "printDeck",
+                        "type" : "void func (deck;)"
+                    },
+                    {
+                        "name" : "printCard",
+                        "type" : "void func (card;)"
+                    },
+                    {
+                        "name" : "printString",
+                        "type" : "void func (string;)"
+                    },
+                    {
+                        "name" : "printNumber",
+                        "type" : "void func (number;)"
+                    },
+                    {
+                        "name" : "printHand",
+                        "type" : "void func (hand;)"
+                    },
+                    {
+                        "name" : "printFlag",
+                        "type" : "void func (flag;)"
+                    },
+                    {
+                        "name" : "getPlayerCount",
+                        "type" : "number func ()"
+                    }
+                ]
+    },
+
+    "DefaultTurnSymbols":
+    {
+        "symbols":
+        [
+        ]
+    },
+
+    "DefaultEndconditionSymbols":
+    {
+        "symbols":
+        [
+            {
+                "name": "winner",
+                "type": "player"
+            },
+            {
+                "name": "none",
+                "type": "player"
+            }
+        ]
+    }
+}

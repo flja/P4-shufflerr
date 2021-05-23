@@ -1,0 +1,150 @@
+deck gamedeck = standard + hearts + 2h;
+
+Define Cards
+{
+	assign king.value = 10;
+	assign queen.value = 10;
+	assign jack.value = 10;
+	assign ace.value = 11;	
+}
+
+Define Player(1)
+{
+	hand playerHand;
+}
+
+Define Table
+{
+	hand dealerHand;
+}
+
+Setup
+{
+	func gamedeck.shuffle();
+	func players.playerHand.drawfrom(gamedeck, 2);
+	func table.dealerHand.drawfrom(gamedeck, 2);
+}
+
+Round
+{
+	func printString("The dealers visible card is: ");
+	func printCard(table.dealerHand.1);
+	func printString("\n");
+
+	if(?table.dealerHand.totalValue < 21)
+	{
+		func players.takeTurn();
+	}endif;
+
+	func printString("The dealers hand consists of ");
+	func printHand(table.dealerHand);
+	func printString("\n Dealers cards add up to a total value of: ");
+	func printNumber(table.dealerHand.totalValue);
+	func printString("\n");
+
+	while(?table.dealerHand.totalValue < 17 and player.1.playerHand.totalValue < 22)
+	{
+		func table.dealerHand.drawfrom(gamedeck, 1);
+		func printString("Dealer draws\n Dealers hand now consists of: ");
+		func printHand(table.dealerHand);
+		func printString("\n Dealers cards add up to a total value of: ");
+		func printNumber(table.dealerHand.totalValue);
+		func printString("\n");
+	} endwhile;
+	func endcondition.check();
+
+	
+}
+
+Turn
+{
+	flag endturn;
+	assign endturn = false;
+	func printString("Your hand contains: \n");
+	func printHand(turntaker.playerHand);
+	func printString("\n Your cards add up to a total value of: ");
+	func printNumber(turntaker.playerHand.totalValue);
+	func printString("\n");
+	while(?turntaker.playerHand.totalValue < 21 and endturn == false)
+	{
+		actions
+		{
+			action "Hit" if(?true)
+			{
+				func turntaker.playerHand.drawfrom(gamedeck, 1);
+				func printString("you hit \n your hand now consists of: ");
+				func printHand(turntaker.playerHand);
+				func printString("\n Your cards add up to a total value of: ");
+				func printNumber(turntaker.playerHand.totalValue);
+				func printString("\n");
+			} endaction;
+			action "Stand" if(?true)
+			{
+				assign endturn = true;
+			} endaction;
+			action "Split" if(?turntaker.playerHand.size == 2 and turntaker.playerHand.1 == turntaker.playerHand.2)
+			{
+				assign endturn = true;
+				func printString("No!");
+
+			} endaction;
+		} endactions;
+	}endwhile;
+}
+
+Endcondition(?true)
+{
+	if(?table.dealerHand.totalValue > 21)
+	{
+		func printString("Dealer has over 21\n");
+		assign winner = player.1;
+	}
+	else if(?player.1.playerHand.totalValue > 21)
+	{
+		func printString("The player has over 21\n");
+		func printString("Dealer wins");
+	}
+	else if(?player.1.playerHand.totalValue == table.dealerHand.totalValue and table.dealerHand.totalValue == 21)
+	{
+		func printString("The game is a tie");
+	}
+	else if(?player.1.playerHand.totalValue == table.dealerHand.totalValue)
+	{
+		func printString("The dealer has the same card as the player the dealer wins by tie\n");
+		func printString("Dealer wins");
+	}
+	else if(?table.dealerHand.totalValue == 21)
+	{
+		func printString("Dealer has 21\n");
+		func printString("Dealer wins");
+	}
+	else if(?player.1.playerHand.totalValue == 21)
+	{
+		func printString("Player has 21\n");
+		assign winner = player.1;
+	}
+	else if(?player.1.playerHand.totalValue > table.dealerHand.totalValue)
+	{
+		func printString("Player has a higher value than dealer\n");
+		assign winner = player.1;
+	}
+	else
+	{
+		func printString("Dealer has a higher value than player\n");
+		func printString("Dealer wins");
+	} endif; endif; endif; endif; endif; endif; endif;
+}
+
+Functions
+{
+	number myFunc ( number i; number k; )
+	{
+		number j;
+		assign j = i;
+		if(?j > k)
+		{
+			assign k = j;
+		}endif;
+		return i;
+	}
+}

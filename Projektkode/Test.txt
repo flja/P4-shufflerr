@@ -1,0 +1,293 @@
+deck gamedeck = 2h + 2c + 2d + 2s + 3h + 3c + 3d + 3s;
+
+Define Cards
+{
+}
+
+Define Player(3)
+{
+	flag out;
+	deck playerHand;
+	deck trickDeck;
+	assign out = false;
+}
+
+Define Table
+{
+}
+
+Setup
+{
+	number i;
+	assign i = func getPlayerCount();
+	func gamedeck.shuffle();
+	func players.playerHand.drawfrom(gamedeck, 7);
+	while(?i > 0)
+	{
+		func checkForTricks(i);
+		assign i = i - 1;
+	}endwhile;
+}
+
+Round
+{
+	func endcondition.check();
+	func players.takeTurn();
+}
+
+Turn
+{
+	number playernumber;
+	number i;
+	flag hasAce;
+	flag hasTwo;
+	flag hasThree;
+	flag hasFour;
+	flag hasFive;
+	flag hasSix;
+	flag hasSeven;
+	flag hasEight;
+	flag hasNine;
+	flag hasTen;
+	flag hasJack;
+	flag hasQueen;
+	flag hasKing;
+
+	assign hasAce = func hasCard(ace.value, turntaker.Number);
+	assign hasTwo = func hasCard(two.value, turntaker.Number);
+	assign hasThree = func hasCard(three.value, turntaker.Number);
+	assign hasFour = func hasCard(four.value, turntaker.Number);
+	assign hasFive = func hasCard(five.value, turntaker.Number);
+	assign hasSix = func hasCard(six.value, turntaker.Number);
+	assign hasSeven = func hasCard(seven.value, turntaker.Number);
+	assign hasEight = func hasCard(eight.value, turntaker.Number);
+	assign hasNine = func hasCard(nine.value, turntaker.Number);
+	assign hasTen = func hasCard(ten.value, turntaker.Number);
+	assign hasJack = func hasCard(jack.value, turntaker.Number);
+	assign hasQueen = func hasCard(queen.value, turntaker.Number);
+	assign hasKing = func hasCard(king.value, turntaker.Number);
+	func printString("Player ");
+	func printNumber(turntaker.Number);
+	func printString(" your hand consists of: ");
+	func printDeck(turntaker.playerHand);
+	func printString("\nChoose a player to ask\n");
+	actions
+	{
+		action "Player 1" if(?turntaker.Number != 1)
+		{
+			assign playernumber = 1;
+		}endaction;
+		action "Player 2" if(?turntaker.Number != 2)
+		{
+			assign playernumber = 2;
+		}endaction;
+		action "Player 3" if(?turntaker.Number != 3)
+		{
+			assign playernumber = 3;
+		}endaction;
+	}endactions;
+
+	func printString("Choose a card to ask for\n");
+	actions
+	{
+		action "aces" if(?hasAce)
+		{
+			assign i = ace.value;
+			func askForCards(turntaker.Number, playernumber, i);
+		}endaction;
+		action "twos" if(?hasTwo)
+		{
+			func askForCards(turntaker.Number, playernumber, two.value);
+		}endaction;
+		action "threes" if(?hasThree)
+		{
+			assign i = three.value;
+			func printNumber(i);
+			func printNumber(three.value);
+			func askForCards(turntaker.Number, playernumber, i);
+		}endaction;
+		action "fours" if(?hasFour)
+		{
+			func askForCards(turntaker.Number, playernumber, four.value);
+		}endaction;
+		action "fives" if(?hasFive)
+		{
+			func askForCards(turntaker.Number, playernumber, five.value);
+		}endaction;
+		action "sixes" if(?hasSix)
+		{
+			func askForCards(turntaker.Number, playernumber, six.value);
+		}endaction;
+		action "sevens" if(?hasSeven)
+		{
+			func askForCards(turntaker.Number, playernumber, seven.value);
+		}endaction;
+		action "eights" if(?hasEight)
+		{
+			func askForCards(turntaker.Number, playernumber, eight.value);
+		}endaction;
+		action "nines" if(?hasNine)
+		{
+			func askForCards(turntaker.Number, playernumber, nine.value);
+		}endaction;
+		action "tens" if(?hasTen)
+		{
+			func askForCards(turntaker.Number, playernumber, ten.value);
+		}endaction;
+		action "jacks" if(?hasJack)
+		{
+			func askForCards(turntaker.Number, playernumber, jack.value);
+		}endaction;
+		action "queens" if(?hasQueen)
+		{
+			func askForCards(turntaker.Number, playernumber, queen.value);
+		}endaction;
+		action "kings" if(?hasKing)
+		{
+			func askForCards(turntaker.Number, playernumber, king.value);
+		}endaction;
+	}endactions;
+	func checkForTricks(turntaker.Number);
+	func endcondition.check();
+}
+
+Endcondition(?gamedeck.size == 0 and false == players.any.playerHand.size > 0)
+{
+	number player1tricks;
+	number player2tricks;
+	number player3tricks;
+
+	assign player1tricks = player.1.trickDeck.size;
+	assign player2tricks = player.2.trickDeck.size;
+	assign player3tricks = player.3.trickDeck.size;
+	if(?player1tricks > player2tricks and player1tricks > player3tricks)
+	{
+		assign winner = player.1;
+	}
+	else if(?player2tricks > player1tricks and player2tricks > player3tricks)
+	{
+		assign winner = player.2;
+	}
+	else if(?player3tricks > player1tricks and player3tricks > player2tricks)
+	{
+		assign winner = player.3;
+	}
+	else
+	{
+		assign winner = none;
+	}endif; endif; endif;
+	func printString("Game over\n");
+}
+
+Functions
+{
+	void askForCards(number to; number from; number askValue;)
+	{
+		deck temp;
+		number CardsRecieved = 0;
+		number handsize;
+		assign handsize = player.from.playerHand.size;
+		while(?handsize != 0)
+		{
+			if(?player.from.playerHand.handsize.value == askValue)
+			{
+				func player.to.playerHand.drawfrom(player.from.playerHand, 1);
+				assign CardsRecieved = CardsRecieved + 1;
+			}
+			else
+			{
+				func temp.drawfrom(player.from.playerHand, 1);
+			}endif;
+			assign handsize = player.from.playerHand.size;
+		}endwhile;
+		if(?CardsRecieved == 0)
+		{
+			func printString("\nGo Fish!!\n");
+			func player.to.playerHand.drawfrom(gamedeck, 1);
+			assign handsize = player.to.playerHand.size;
+			func printString("You fished a ");
+			func printCard(player.to.playerHand.handsize);
+			func printString("\n");
+		}else
+		{
+			func printString("\nPlayer ");
+			func printNumber(to);
+			func printString(" recieved ");
+			func printNumber(CardsRecieved);
+			func printString(" Cards ");
+			func printString("from player ");
+			func printNumber(from);
+			func printString("\n");
+		}endif;
+		
+		func player.from.playerHand.drawfrom(temp, temp.size);
+	}
+
+	flag hasCard(number cardValue; number playerNum;)
+	{
+		number i = 1;
+		while(?i < player.playerNum.playerHand.size)
+		{
+			if(?player.playerNum.playerHand.i.value == cardValue)
+			{
+				return true;
+			}endif;
+			assign i = i + 1;
+		}endwhile;
+		return false;
+	}
+	void checkForTricks(number playerNumber;)
+	{
+		deck temp;
+		number i;
+
+		assign i = player.playerNumber.playerHand.size;
+		func printString("Checking tricks for player ");
+		func printNumber(playerNumber);
+		func printString("\n");
+		while(?i > 0)
+		{
+			number cardValue;
+			number j;
+			number amount = 0;
+			assign j = player.playerNumber.playerHand.size;
+			assign cardValue = player.playerNumber.playerHand.i.value;
+
+			while(?j > 0)
+			{
+				if(?player.playerNumber.playerHand.j.value == cardValue)
+				{
+					assign amount = amount + 1;
+				}endif;
+				assign j = j - 1;
+			}endwhile;
+
+			if(?amount >= 4)
+			{
+
+				assign j = player.playerNumber.playerHand.size;
+
+				while(?j > 0)
+				{
+					if(?player.playerNumber.playerHand.j.value == cardValue)
+					{
+						func player.playerNumber.trickDeck.drawfrom(player.playerNumber.playerHand, 1);
+					}
+					else
+					{
+						func temp.drawfrom(player.playerNumber.playerHand, 1);
+					}endif;
+					assign j = j - 1;
+
+				}endwhile;
+
+				func player.playerNumber.playerHand.drawfrom(temp, temp.size);
+				assign i = i - 3;
+				func printString("Congrats new trick set of: ");
+				func printNumber(cardValue);
+				func printString("\n");
+			}endif;
+			assign i = i - 1;
+		}endwhile;
+	}
+}
